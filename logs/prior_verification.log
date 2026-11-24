@@ -1,0 +1,20 @@
+Second links: 72
+Two-link cases (missing triples, residual point-incidence lower bound): [((153, 87), 24), ((153, 90), 8), ((156, 88), 27), ((162, 93), 12), ((180, 108), 1)]
+Three-link completions: 96
+Three-link cases (missing triples, residual point-incidence lower bound): [((108, 72), 72), ((117, 74), 24)]
+PASS: every three-link case needs at least 15 additional blocks, hence at least 43 total.
+PASS: a 42-block cover can have at most two points of degree at most 14.
+PASS: 41 or fewer blocks are impossible by the degree sum.
+PASS: 43 distinct blocks cover all 364 triples.
+PASS: five relative orbits exhaust all 72 links: [27, 24, 12, 8, 1]
+orbit 0 missing 156 forced degree >=16: [4, 8, 10, 12]
+orbit 1 missing 153 forced degree >=16: []
+orbit 2 missing 162 forced degree >=16: [2, 3, 4, 7, 8, 9, 10, 11, 12, 13]
+orbit 3 missing 153 forced degree >=16: []
+orbit 4 missing 180 forced degree >=16: [1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13]
+PASS: 143 integer certificates; 20124 candidate-block inequalities checked.
+PASS: orbits 2 and 4 impossible for any two low points; orbit 0 impossible if either has degree 14.
+Arc consistency: True {1: 5, 5: 5, 2: 5, 13: 5, 3: 5, 7: 5, 9: 5, 11: 5}
+Search states 50 pairwise consistent complete assignments 36 union size histogram [(22, 36)]
+Profiles (union size, high degrees, uncovered triples): [((22, (11, 11, 11, 13), 0), 8), ((22, (11, 11, 12, 12), 0), 28)]
+PASS: type 0 requires more than 20 residual blocks.

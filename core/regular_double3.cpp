@@ -1,0 +1,26 @@
+#include <bits/stdc++.h>
+using namespace std; using U=uint64_t;
+int pc(int x){return __builtin_popcount((unsigned)x);}int pc64(U x){return __builtin_popcountll(x);}
+const int N=14;vector<int>P,T,B4;vector<int>bp[1<<14],bt[1<<14];int Q[12],w[12],lo[12],goal[12],d[12],f[12][12],fd[12],root,partner; vector<int> fixedF; vector<int> cb,by[66],pure,chosen;vector<U> em,hm;U fullE,fullH;long long nodes=0,local=0,surv=0;int rep;bool timed=false; auto start=chrono::steady_clock::now();
+void verify_union(){ // exact necessary bounds for a regular cover of 42 blocks, pair codegrees <=6
+ vector<int> F=fixedF;for(int j:chosen)F.push_back(cb[j]|(1<<partner)); assert(F.size()==24);local++;
+ int dp[N]={},pp[91]={},tt[364]={};for(int b:F){for(int x=0;x<N;x++)dp[x]+=b>>x&1;for(int i:bp[b])pp[i]++;for(int i:bt[b])tt[i]++;}
+ for(int n:pp)if(n>6)return;for(int n:tt)if(n>4)return;for(int n:dp)if(n>15)return;
+ int h[91]={},hv[N]={},inc[N]={};for(int i=0;i<364;i++)if(!tt[i]){for(int j:bp[T[i]])h[j]++;for(int x=0;x<N;x++)hv[x]+=T[i]>>x&1;}
+ for(int j=0;j<91;j++){int r=max({0,4-pp[j],(h[j]+2)/3});if(pp[j]+r>6)return;for(int x=0;x<N;x++)if(P[j]>>x&1)inc[x]+=r;}
+ for(int x=0;x<N;x++)if(dp[x]+max((hv[x]+5)/6,(inc[x]+3)/4)>15)return;
+ surv++;cout<<"SURV "<<rep<<' '<<partner;for(int b:F)cout<<' '<<b;cout<<'\n';}
+void tail(int pos,int n,U h){if(n==9){if(h!=fullH)return;for(int x=0;x<12;x++)if(d[x]!=goal[x])return;verify_union();return;}if((int)pure.size()-pos<9-n)return;for(int i=pos;i<(int)pure.size();i++){int j=pure[i],b=cb[j];bool ok=true;for(int x=0;x<12;x++)if((b>>Q[x]&1)&&d[x]>=goal[x])ok=false;if(!ok)continue;for(int x=0;x<12;x++)if(b>>Q[x]&1)d[x]++;chosen.push_back(j);tail(i+1,n+1,h|hm[j]);chosen.pop_back();for(int x=0;x<12;x++)if(b>>Q[x]&1)d[x]--;}}
+
+void dfs(U e,U h,int n){if(timed)return;if((++nodes&65535)==0&&false){timed=true;return;}if(!e){tail(0,n,h);return;}if(n==9||pc64(e)+pc64(fullH^h)>6*(9-n))return;
+ vector<int> best;bool first=true;U bits=e;while(bits){int i=__builtin_ctzll(bits);bits&=bits-1;vector<int>opts;for(int j:by[i])if((em[j]&e)==em[j]){bool ok=true;int b=cb[j];for(int x=0;x<12;x++)if((b>>Q[x]&1)&&d[x]>=goal[x]){ok=false;break;}if(ok)opts.push_back(j);}if(opts.empty())return;if(first||opts.size()<best.size()){best=move(opts);first=false;if(best.size()==1)break;}}
+ for(int j:best){int b=cb[j];for(int x=0;x<12;x++)if(b>>Q[x]&1)d[x]++;bool ok=true;for(int x=0;x<12;x++)if(goal[x]-d[x]>8-n)ok=false;chosen.push_back(j);if(ok)dfs(e^em[j],h|hm[j],n+1);chosen.pop_back();for(int x=0;x<12;x++)if(b>>Q[x]&1)d[x]--;if(timed)return;}}
+void try_weights(){int tw=0;for(int x=0;x<12;x++){goal[x]=4+w[x]-fd[x];if(goal[x]<0||goal[x]>9)return;tw+=w[x]==2;}
+ int ei[12][12],hi[12][12];memset(ei,-1,sizeof ei);memset(hi,-1,sizeof hi);int ne=0,nh=0;
+ for(int x=0;x<12;x++)for(int y=x+1;y<12;y++){if(f[x][y]>1&&(!w[x]||!w[y]))return;if(f[x][y]>4)return;if(!f[x][y]){if(w[x]&&w[y])hi[x][y]=nh++;else ei[x][y]=ne++;}}
+ assert(ne<64&&nh<64);fullE=(1ULL<<ne)-1;fullH=(1ULL<<nh)-1;cb.clear();em.clear();hm.clear();pure.clear();for(auto&b:by)b.clear();
+ for(int b:B4)if(!(b&(1<<root|1<<partner))){bool ok=true;U e=0,h=0;for(int x=0;x<12;x++)if(b>>Q[x]&1){if(!goal[x]){ok=false;break;}for(int y=x+1;y<12;y++)if(b>>Q[y]&1){if(f[x][y]&&(!w[x]||!w[y])){ok=false;break;}if(ei[x][y]>=0)e|=1ULL<<ei[x][y];if(hi[x][y]>=0)h|=1ULL<<hi[x][y];}}if(!ok)continue;int j=cb.size();cb.push_back(b);em.push_back(e);hm.push_back(h);if(!e)pure.push_back(j);while(e){int i=__builtin_ctzll(e);e&=e-1;by[i].push_back(j);}}
+ memset(d,0,sizeof d);chosen.clear();dfs(fullE,0,0);}
+void weights(int i,int left){if(timed)return;if(i==12){if(!left)try_weights();return;}for(int v=lo[i];v<=2&&v<=left;v++){w[i]=v;weights(i+1,left-v);}}
+int prep(int y){partner=y;int k=0;for(int x=0;x<N;x++)if(x!=root&&x!=partner)Q[k++]=x;assert(k==12);memset(f,0,sizeof f);memset(fd,0,sizeof fd);int n=0;for(int b:fixedF)if(b>>partner&1){n++;for(int x=0;x<12;x++)if(b>>Q[x]&1){fd[x]++;for(int z=x+1;z<12;z++)if(b>>Q[z]&1)f[x][z]++,f[z][x]++;}}assert(n==6);int L=0;for(int x=0;x<12;x++){int missing=0;bool dup=false;for(int z=0;z<12;z++)if(z!=x){missing+=f[x][z]==0;dup|=f[x][z]>1;}lo[x]=max({0,fd[x]+(missing+2)/3-4,(int)dup});L+=lo[x];if(lo[x]>2)L+=100;}return L;}
+int main(){root=13;for(int b=0;b<(1<<14);b++){if(pc(b)==2)P.push_back(b);if(pc(b)==3)T.push_back(b);if(pc(b)==4)B4.push_back(b);}for(int b=0;b<(1<<14);b++)if(pc(b)>=3&&pc(b)<=5){for(int i=0;i<91;i++)if((b&P[i])==P[i])bp[b].push_back(i);for(int i=0;i<364;i++)if((b&T[i])==T[i])bt[b].push_back(i);}int n;cin>>n;for(rep=0;rep<n;rep++){vector<int>weight(12),A(11);for(int&v:weight)cin>>v;for(int&v:A)cin>>v;fixedF.clear();for(int i=0;i<4;i++)fixedF.push_back((1<<root)|(1<<12)|(7<<(3*i)));for(int b:A)fixedF.push_back(b|(1<<root));int best=-1,bs=-1;for(int x=0;x<12;x++)if(weight[x]==2){int s=prep(x);if(s>bs)bs=s,best=x;}assert(best>=0);int L=prep(best);long long before=local,s0=surv;if(L<=6)weights(0,6);cout<<"REPRESULT "<<rep<<" partner "<<partner<<" minweight "<<L<<" completions "<<local-before<<" survivors "<<surv-s0<<" timed "<<timed<<'\n';if(timed)break;}cout<<"TOTAL "<<rep<<" nodes "<<nodes<<" completions "<<local<<" survivors "<<surv<<" timed "<<timed<<'\n';}

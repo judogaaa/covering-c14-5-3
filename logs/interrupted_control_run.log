@@ -1,0 +1,24 @@
+II. Complete normalized degree-15 link enumeration
+TDs 72 layouts 143
+RUN enum_reps
+FINAL EXHAUSTED nodes 37542 local 208 reps 10 tests 0 survivors 0
+RUN enum_reps
+FINAL EXHAUSTED nodes 2156 local 0 reps 0 tests 0 survivors 0
+RUN enum_reps
+FINAL EXHAUSTED nodes 6675 local 840 reps 29 tests 0 survivors 0
+RUN enum_reps
+FINAL EXHAUSTED nodes 19544 local 5228 reps 161 tests 0 survivors 0
+RUN enum_reps
+FINAL EXHAUSTED nodes 20180 local 13100 reps 333 tests 0 survivors 0
+RUN enum_reps
+FINAL EXHAUSTED nodes 232008 local 44328 reps 219 tests 0 survivors 0
+PASS: 63,704 normalized-layout labelled links, 752 representatives; 342 removable.
+IV. Exclude regular case with codegree six
+RUN regular_double3
+TOTAL 29 nodes 189729 completions 2792 survivors 0 timed 0
+RUN regular_double3
+TOTAL 161 nodes 972458 completions 15792 survivors 57 timed 0
+PASS: regular profile with two doubles; 57 integer certificates.
+RUN regular_matching
+TOTAL 333 nodes 741239 completions 29708 survivors 2335 timed 0
+RUN propagate_search matching

@@ -1,0 +1,17 @@
+#include <bits/stdc++.h>
+using namespace std;using U=uint64_t;
+int pc(int n){return __builtin_popcount((unsigned)n);}vector<array<uint16_t,4096>> maps; unordered_set<U> allowed;
+// Normalize the four groups, marking the other completed root first in group zero.
+vector<int> normalized(const vector<int>& groups, const vector<int>& triples,int mark){
+ vector<int> g=groups;assert(g.size()==4);sort(g.begin(),g.end());auto it=find_if(g.begin(),g.end(),[&](int b){return b>>mark&1;});assert(it!=g.end());iter_swap(g.begin(),it);sort(g.begin()+1,g.end());int mp[14];fill(mp,mp+14,-1);mp[mark]=0;int j=1;for(int i=0;i<4;i++){assert(pc(g[i])==3);for(int v=0;v<14;v++)if((g[i]>>v&1)&&v!=mark)mp[v]=j++;}assert(j==12);vector<int> a;for(int b:triples){assert(pc(b)==3);int m=0;for(int v=0;v<14;v++)if(b>>v&1){assert(mp[v]>=1);m|=1<<mp[v];}a.push_back(m);}return a;
+}
+int tid[4096];U key(vector<int> a){assert(a.size()>=3&&a.size()<=6);sort(a.begin(),a.end());U k=0;for(int v:a){assert(tid[v]>0);k=(k<<8)|tid[v];}return k;}
+void add_orbit(vector<int>a){if(allowed.count(key(a)))return;for(auto &m:maps){vector<int>b;for(int v:a)b.push_back(m[v]);allowed.insert(key(b));}}
+bool nonrem(const vector<int>& L){int c[13][13]={};for(int b:L)for(int x=0;x<13;x++)if(b>>x&1)for(int y=x+1;y<13;y++)if(b>>y&1)c[x][y]++;for(int b:L){bool rem=true;for(int x=0;x<13;x++)if(b>>x&1)for(int y=x+1;y<13;y++)if((b>>y&1)&&c[x][y]==1)rem=false;if(rem)return false;}return true;}
+int main(int argc,char**argv){assert(argc>=2);int tn=0;for(int v=0;v<4096;v++)if(pc(v)==3)tid[v]=++tn;assert(tn==220);array<int,3> perm={0,1,2};vector<array<int,3>> ps;do{ps.push_back(perm);}while(next_permutation(perm.begin(),perm.end()));array<int,3> gp={1,2,3};do{for(auto a:ps)for(auto b:ps)for(auto c:ps)for(int sw=0;sw<2;sw++){int p[12]={0,1+sw,2-sw};array<array<int,3>,3> q={a,b,c};for(int i=0;i<3;i++)for(int j=0;j<3;j++)p[3+3*i+j]=3*gp[i]+q[i][j];array<uint16_t,4096> m{};for(int i=1;i<4096;i++){int x=__builtin_ctz((unsigned)i);m[i]=m[i^(1<<x)]|(1<<p[x]);}maps.push_back(m);}}while(next_permutation(gp.begin(),gp.end()));assert(maps.size()==2592);
+ int reps=0,retained=0;vector<int> G={7,56,448,3584};for(int arg=1;arg<argc;arg++){ifstream in(argv[arg]);int n;in>>n;assert(in);for(int i=0;i<n;i++){vector<int>w(12),A(11),L;for(int&x:w)in>>x;for(int&x:A)in>>x;for(int g:G)L.push_back(g|(1<<12));L.insert(L.end(),A.begin(),A.end());reps++;if(!nonrem(L))continue;retained++;for(int y=0;y<12;y++){vector<int> t;for(int b:A)if(b>>y&1)t.push_back(b^(1<<y));assert((int)t.size()==3+w[y]);add_orbit(normalized(G,t,y));}}}cerr<<"TABLE reps "<<reps<<" nonremovable "<<retained<<" signatures "<<allowed.size()<<'\n';
+ string line;int n=0,ex=0;map<int,int>hist;while(getline(cin,line)){if(line.rfind("SURV ",0)!=0)continue;istringstream ss(line);string tag;int rep,y;ss>>tag>>rep>>y;assert(y==12);vector<int> F(24);for(int&b:F)ss>>b;assert(ss);int forced=0;vector<int> forced_pts;
+ for(int z=0;z<12;z++){vector<int> groups,t;for(int b:F)if(b>>z&1){if(b>>12&1)groups.push_back(b^(1<<z)^(1<<12));else if(b>>13&1)t.push_back(b^(1<<z)^(1<<13));}assert(groups.size()==4);assert(t.size()>=3&&t.size()<=6);if(!allowed.count(key(normalized(groups,t,13)))){forced++;forced_pts.push_back(z);}if(forced>2)break;}
+ n++;hist[forced]++;if(forced>2)ex++;else{cout<<"OPEN "<<rep<<" forced "<<forced;for(int z:forced_pts)cout<<' '<<z;cout<<' '<<line<<'\n';}}
+ cout<<"TOTAL "<<n<<" excluded "<<ex<<" remaining "<<n-ex<<" signatures "<<allowed.size()<<'\n';for(auto [k,v]:hist)cout<<k<<' '<<v<<'\n';
+}

@@ -1,0 +1,4 @@
+PASS strict per-representative check reg3.log
+PASS strict per-representative check reg2.log
+PASS strict per-representative check regular_matching.log
+PASS strict per-representative check regular_simple.log

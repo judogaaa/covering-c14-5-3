@@ -1,0 +1,5 @@
+Type 1 auts 18 orbits [(1, [1, 2, 3, 4, 5, 7, 10, 12, 13]), (8, [8, 9, 11])]
+Local 1 1522 seconds 0.008
+Local 8 140 seconds 0.001
+Subsets to test 495 size 8
+FINAL 1 states 0 leaves 0 hist {}

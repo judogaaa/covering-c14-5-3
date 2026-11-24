@@ -4,11 +4,12 @@ from itertools import combinations
 from hashlib import sha256
 from pathlib import Path
 
+
 def main():
     root = Path(__file__).resolve().parent
     points = set(range(1, 15))
     blocks = []
-    for line in (root / "upper43_blocks.txt").read_text(encoding="utf-8").splitlines():
+    for line in (root / "upper43_blocks.txt").read_text().splitlines():
         line = line.strip()
         if not line or line.startswith("#"):
             continue
@@ -39,7 +40,8 @@ def main():
         raise SystemExit("FAIL: historical relabeling mismatch")
     print("PASS: historical witness digest and explicit relabeling verified.")
     print("PASS: 43 distinct five-element blocks cover all 364 triples.")
-    print("This establishes only C(14,5,3) <= 43.")
+    print("This proves only C(14,5,3) <= 43; run audit.py for the lower bound.")
+
 
 if __name__ == "__main__":
     main()

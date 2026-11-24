@@ -1,0 +1,42 @@
+name: Reproduce covering proof
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Record environment
+        run: |
+          python --version
+          g++ --version
+      - name: Check archive integrity
+        run: sha256sum -c SHA256SUMS
+      - name: Verify upper bound
+        run: python verify_upper.py
+      - name: Reproduce full proof and second residual check
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -u audit.py 2>&1 | tee verification-ci.log
+      - name: Upload verification logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verification-logs
+          path: |
+            verification-ci.log
+            build/*.log
+          if-no-files-found: warn
+          retention-days: 30
