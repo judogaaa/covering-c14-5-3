@@ -4,7 +4,7 @@
 
 Generative language-model tools contributed substantially to mathematical reasoning, algorithm design, implementation, debugging, proof writing and computational checks. These tools also supplied candidate arguments that were critically reviewed and corrected where appropriate. This disclosure describes the research process; the computational checks are not independent human peer review.
 
-The human author's preferred publication name, affiliations (if any), and precise contribution statement remain to be confirmed for formal publication. Do not infer authorship from GitHub account information. No scientific priority claim is made here. A license for the original code and prose and full citation metadata should be selected by the rights holder. The historical data are attributed separately.
+The Zenodo preprint lists Egor Demin as author (independent researcher): [DOI 10.5281/zenodo.24514296](https://doi.org/10.5281/zenodo.24514296). This publication metadata does not imply sole unaided human authorship or establish the precise allocation of contributions. No scientific priority claim is made here. See [LICENSE](LICENSE) for the terms applicable to original copyrightable contributions and [CITATION.md](CITATION.md) for citation guidance. The historical data are attributed separately.
 
 ## Related sources cited by the research draft
 

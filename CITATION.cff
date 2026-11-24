@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this research, please cite the versioned Zenodo preprint. For subsequent repository changes, also record the exact Git commit."
+title: "A Candidate Computational Proof of the Covering Number C(14,5,3) = 43"
+type: software
+authors:
+  - family-names: Demin
+    given-names: Egor
+repository-code: "https://github.com/judogaaa/covering-c14-5-3"
+url: "https://github.com/judogaaa/covering-c14-5-3"
+preferred-citation:
+  type: report
+  title: "A Candidate Computational Proof of the Covering Number C(14,5,3) = 43"
+  authors:
+    - family-names: Demin
+      given-names: Egor
+  institution:
+    name: Zenodo
+  year: 2026
+  date-published: 2026-11-24
+  version: v1
+  doi: "10.5281/zenodo.24514296"
+  url: "https://zenodo.org/records/24514296"

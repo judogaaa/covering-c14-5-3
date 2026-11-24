@@ -2,6 +2,12 @@
 
 **Research draft and reproducibility package — 24 November 2026**
 
+**Preprint author:** Egor Demin (independent researcher).  
+**Zenodo preprint, version v1:** [10.5281/zenodo.24514296](https://doi.org/10.5281/zenodo.24514296).  
+**Research revision identified in the preprint:** [`5811830`](https://github.com/judogaaa/covering-c14-5-3/tree/58118307a11a08c5f2a53b37a160c5b36a2567c1).
+
+See [CITATION.cff](CITATION.cff) and [CITATION.md](CITATION.md) for citation guidance, [LICENSE](LICENSE) for the research-verification terms, and [ATTRIBUTION.md](ATTRIBUTION.md) for the substantial contribution of generative AI tools and related work. The preprint is a candidate proof, not a peer-reviewed or priority-certified result.
+
 This repository presents a candidate computer-assisted proof of the exact covering number
 
 $$ C(14,5,3)=43. $$
@@ -77,4 +83,4 @@ The proof subdirectories retain intermediate documents for traceability. Their s
 
 Independent scrutiny of the mathematical reductions, symmetry coverage, finite enumerators, and integer certificates is welcome. Please report any issue with a minimal counterexample or reproducible command. See [CONTRIBUTING.md](CONTRIBUTING.md).
 
-Research provenance, including the use of generative tools, is documented in [ATTRIBUTION.md](ATTRIBUTION.md). The additional checker is a separate implementation, not an external peer review. Publication-author metadata and licensing of the original code and prose are not yet finalized. The historical witness is attributed separately under its source data license. See [CITATION.md](CITATION.md) for provisional citation guidance. No claim of priority is made.
+Research provenance, including the use of generative tools, is documented in [ATTRIBUTION.md](ATTRIBUTION.md). The additional checker is a separate implementation, not an external peer review. The original copyrightable materials are subject to [LICENSE](LICENSE); the historical witness is attributed separately under its source data license. See [CITATION.md](CITATION.md) for citation guidance. No claim of priority is made.
