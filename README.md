@@ -1,15 +1,29 @@
 # The covering number C(14,5,3)
 
-**Public research draft — 24 November 2026**
+**Research draft — 24 November 2026**
 
-This project investigates the minimum number of five-element subsets of a fourteen-element set needed to cover every three-element subset. The proposed result is $C(14,5,3)=43$.
+Let $C(v,k,t)$ denote the minimum number of distinct $k$-subsets of a $v$-element set that contain every $t$-subset in at least one block. This project investigates $C(14,5,3)$; its proposed exact value is 43.
 
-**Publication status:** initial import. The full computer-assisted lower-bound proof and its reproducibility package have been prepared locally; the complete set of sources and certificates is not yet present in this GitHub repository. The equality should be treated as a candidate pending review of the complete package. No claim of scientific priority or independent peer review is made.
+## Verification status
 
-An explicit 43-block construction, which establishes the upper bound, and its standalone checker are being imported. The lower-bound approach combines exhaustive local-link enumeration, exact integer inequalities and residual search. Verification of the upper bound alone is not a proof of optimality.
+The explicit 43-block construction establishes the upper bound. It is a relabeling of the historical construction of Nurmela and Östergård (1996), not a new construction. The proposed contribution is the exclusion of 42 blocks by exhaustive finite enumeration and exact integer certificates.
 
-## Reproducibility and review
+The complete lower-bound artifact is prepared locally but has **not yet been imported in full** into this repository. The earlier [proof draft](PROOF_DRAFT.md) is available for inspection; it is not a standalone reproducible proof of optimality. No independent peer review, formal verification, or scientific priority claim is made.
 
-Once the full package has been imported, start with `PROOF.md`, `AUDIT.md` and `REPRODUCIBILITY.md`. The intended full verification command is `python3 -u audit.py` (Python 3.10+ and a C++17 compiler). A successful run is computational evidence, not formal verification or independent mathematical refereeing.
+## Reproduce the upper bound
 
-This is an AI-assisted investigation. ChatGPT contributed reasoning, code and computational checks; Gemini and DeepSeek supplied additional candidate arguments. The project maintainer is the GitHub account `judogaaa`. Confirmed publication-author metadata, licensing, and priority assessment are pending. Please use GitHub Issues for reproducible findings and corrections.
+Run from the repository root, with Python 3.10+:
+
+```sh
+python3 verify_upper.py
+```
+
+The checker verifies all 364 triples, the 43 distinct blocks, the historical data digest and the explicit relabeling. A successful check establishes only $C(14,5,3)\leq 43$.
+
+## Source and review
+
+- [Historical witness provenance](data/UPPER_WITNESS_PROVENANCE.md)
+- [Attribution and related work](ATTRIBUTION.md)
+- [Review guidelines](CONTRIBUTING.md)
+
+Once the full verification package is imported, the main proof will be in `PROOF.md` and the complete audit will run with `python3 -u audit.py` using GNU C++17 and Python's standard library. The current repository is an initial research release, not a refereed publication.
